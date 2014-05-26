@@ -2,10 +2,23 @@
 	"name": "matcha",
 	"description": "Matcha Libraries",
 	"copyright": "Copyright © 2014, yusuke",
-	"targetType" : "library",
 	"authors": ["yusuke"],
 	"dependencies": {
 	},
+
+	"configurations" : [
+		{
+			"name" : "release",
+			"targetType" : "library",
+			"sourcePaths" : ["source"],
+		},
+		{
+			"name" : "unittest",
+			"targetType" : "executable",
+			"sourcePaths" : ["source", "tests"],
+			"importPaths" : ["source"]
+		}
+	],
 
 	"targetPath" : "target"
 }
