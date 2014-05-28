@@ -2,6 +2,7 @@ import matcha.utils.array;
 
 import std.algorithm;
 import std.stdint;
+import std.c.string;
 
 import core.memory;
 
@@ -28,7 +29,9 @@ class Matrix(T)
 
 	Matrix!(T) dup()
 	{
-		return new Matrix!(T)(1,1,1);
+		auto result = Matrix!(T)(this.rows, this.cols, this.channels);
+		memcpy(result.data, this.data, typeid(T).tsize * rows * cols * channels);
+		return result;
 	}
 
 	@property auto rows() const { return m_rows; }
