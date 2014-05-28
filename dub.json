@@ -8,13 +8,20 @@
 
 	"configurations" : [
 		{
+			"name" : "debug",
+			"targetType" : "library",
+			"sourcePaths" : ["source"],
+		},
+		{
 			"name" : "release",
+			"buildType" : "release",
 			"targetType" : "library",
 			"sourcePaths" : ["source"],
 		},
 		{
 			"name" : "unittest",
 			"targetType" : "executable",
+			"buildType" : "debug",
 			"sourcePaths" : ["source", "tests"],
 			"importPaths" : ["source"]
 		}
