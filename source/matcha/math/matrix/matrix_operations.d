@@ -1,7 +1,5 @@
 import matrix;
-
 import matcha.utils.array;
-
 import std.stdint;
 
 Matrix!(T) initializedMatrix(T)(
@@ -45,5 +43,35 @@ body
 	}
 
 	return result;
+}
+
+Matrix!(T) add(T)(Matrix!(T) a, Matrix!(T) b)
+in
+{
+	assert(a.rows == b.rows);
+	assert(a.cols == b.cols);
+	assert(a.channels == b.channels);
+}
+out(r)
+{
+	assert(a.rows == r.rows);
+	assert(a.cols == r.cols);
+	assert(a.channels == r.channels);
+}
+body
+{
+	auto r = initializedMatrix(a.rows, a.cols, a.channels, 0);
+
+	T* a_ptr = a.data;
+	T* b_ptr = b.data;
+	const T* a_end_ptr = a.data + a.rows * a.cols * a.channels;
+	T* r_ptr = r.data;
+
+	while(a_ptr != a_end_ptr)
+	{
+		*(r_ptr++) = *(a_ptr++) + *(b_ptr++);
+	}
+
+	return r;
 }
 

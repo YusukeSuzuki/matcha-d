@@ -29,7 +29,7 @@ class Matrix(T)
 
 	Matrix!(T) dup()
 	{
-		auto result = Matrix!(T)(this.rows, this.cols, this.channels);
+		auto result = new Matrix!(T)(this.rows, this.cols, this.channels);
 		memcpy(result.data, this.data, typeid(T).tsize * rows * cols * channels);
 		return result;
 	}
