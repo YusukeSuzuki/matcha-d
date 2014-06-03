@@ -1,5 +1,8 @@
-import matrix;
+module matcha.math.matrix.matrix_operations;
+
+import matcha.math.matrix.matrix;
 import matcha.utils.array;
+
 import std.stdint;
 
 Matrix!(T) initializedMatrix(T)(

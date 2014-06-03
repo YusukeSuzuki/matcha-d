@@ -1,3 +1,5 @@
+module matcha.math.matrix.matrix;
+
 import matcha.utils.array;
 
 import std.algorithm;
@@ -24,7 +26,6 @@ class Matrix(T)
 
 	~this()
 	{
-		//GC.free(data);
 	}
 
 	Matrix!(T) dup()
@@ -38,12 +39,12 @@ class Matrix(T)
 	@property auto cols() const { return m_cols; }
 	@property auto channels() const { return m_channels; }
 
-	private uintmax_t m_rows;
-	private uintmax_t m_cols;
-	private uintmax_t m_channels;
+	package uintmax_t m_rows;
+	package uintmax_t m_cols;
+	package uintmax_t m_channels;
 
-	T* data;
+	package T* data;
 
-	private this() { assert(false); }
+	@disable this() { assert(false); }
 }
 
