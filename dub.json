@@ -22,6 +22,7 @@
 			"name" : "unittest",
 			"targetType" : "executable",
 			"buildType" : "debug",
+			"buildOptions" : ["unittests", "debugMode", "debugInfo"],
 			"sourcePaths" : ["source", "tests"],
 			"importPaths" : ["source"]
 		}
