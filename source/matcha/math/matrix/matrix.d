@@ -51,6 +51,21 @@ class Matrix(T)
 
 	@property auto totalOfElements() const { return m_rows * m_cols * m_channels; }
 
+	ref T opIndex(size_t i1)
+		in { assert(i1 < totalOfElements); }
+		body { return data[i1]; }
+
+	T opIndex(size_t i1) const
+		in { assert(i1 < totalOfElements); }
+		body { return data[i1]; }
+
+	ref T opIndex(size_t i1, size_t i2, size_t i3 = 0)
+		in { assert(i1 < m_rows && i2 < m_cols && i3 < m_channels); }
+		body { return data[i1 * m_cols * m_channels + i2 * m_channels + i3]; }
+
+	T opIndex(size_t i1, size_t i2, size_t i3 = 0) const
+		in { assert(i1 < m_rows && i2 < m_cols && i3 < m_channels); }
+		body { return data[i1 * m_cols * m_channels + i2 * m_channels + i3]; }
 
 	package uintmax_t m_rows;
 	package uintmax_t m_cols;
