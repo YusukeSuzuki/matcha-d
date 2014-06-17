@@ -11,6 +11,11 @@ import core.memory;
 class Matrix(T)
 {
 	this(uintmax_t rows, uintmax_t cols, uintmax_t channels)
+	in
+	{
+		assert(rows != 0 && cols != 0 && channels != 0);
+	}
+	body
 	{
 		this.m_rows = rows;
 		this.m_cols = cols;
@@ -20,6 +25,11 @@ class Matrix(T)
 	}
 
 	this(uintmax_t rows, uintmax_t cols)
+	in
+	{
+		assert(rows != 0 && cols != 0);
+	}
+	body
 	{
 		this(rows, cols, 1);
 	}
