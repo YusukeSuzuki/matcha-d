@@ -28,7 +28,7 @@ class Matrix(T)
 	{
 	}
 
-	Matrix!(T) dup()
+	Matrix!(T) dup() const
 	{
 		auto result = new Matrix!(T)(this.rows, this.cols, this.channels);
 		memcpy(result.data, this.data, typeid(T).tsize * rows * cols * channels);
@@ -38,6 +38,9 @@ class Matrix(T)
 	@property auto rows() const { return m_rows; }
 	@property auto cols() const { return m_cols; }
 	@property auto channels() const { return m_channels; }
+
+	@property auto totalOfElements() const { return m_rows * m_cols * m_channels; }
+
 
 	package uintmax_t m_rows;
 	package uintmax_t m_cols;
