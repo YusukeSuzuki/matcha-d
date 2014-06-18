@@ -5,6 +5,8 @@ import matcha.utils.array;
 
 import std.stdint;
 
+unittest { import std.stdio; writeln(__MODULE__, " : test start"); }
+
 Matrix!(T) initializedMatrix(T)(
 	uintmax_t rows, uintmax_t cols, uintmax_t channels, T val)
 {
@@ -35,7 +37,7 @@ body
 {
 	real[] result = initializedArray!(real)(m.channels, 0);
 
-	const uintmax_t elems = m.rows * m.cols * m.channels;
+	const uintmax_t elems = m.totalOfElements;
 
 	for(uintmax_t i = 0; i < elems; i += m.channels)
 	{
@@ -48,7 +50,7 @@ body
 	return result;
 }
 
-Matrix!(T) add(T)(Matrix!(T) a, Matrix!(T) b)
+Matrix!(T) add(T)(in Matrix!(T) a, in Matrix!(T) b)
 in
 {
 	assert(a.rows == b.rows);
@@ -64,11 +66,11 @@ out(r)
 body
 {
 	auto r = initializedMatrix(a.rows, a.cols, a.channels, 0);
-
-	T* a_ptr = a.data;
-	T* b_ptr = b.data;
-	const T* a_end_ptr = a.data + a.rows * a.cols * a.channels;
 	T* r_ptr = r.data;
+
+	const(T)* a_ptr = a.data;
+	const(T)* b_ptr = b.data;
+	const auto a_end_ptr = a.data + a.totalOfElements;
 
 	while(a_ptr != a_end_ptr)
 	{
@@ -77,4 +79,50 @@ body
 
 	return r;
 }
+
+unittest
+{
+}
+
+Matrix!(T) add(T)(in Matrix!(T) a, in T b)
+out(r)
+{
+	assert(a.rows == r.rows);
+	assert(a.cols == r.cols);
+	assert(a.channels == r.channels);
+}
+body
+{
+	auto r = a.dup();
+	T* r_ptr = r.data;
+	const T* r_end_ptr = r.data + r.totalOfElements;
+
+	while(r_ptr != r_end_ptr)
+	{
+		*r_ptr += b;
+		++r_ptr;
+	}
+
+	return r;
+}
+
+unittest
+{
+	const real a = 1.0;
+	const real b = 2.0;
+
+	auto c = initializedMatrix!(real)(2,2,1,a);
+	auto d = add(c, b);
+
+	auto d_ptr = d.data;
+	const auto d_end_ptr = d.data + d.totalOfElements;
+
+	while(d_ptr != d_end_ptr)
+	{
+		assert(*d_ptr == a + b);
+		++d_ptr;
+	}
+}
+
+unittest { import std.stdio; writeln(__MODULE__, " : test clear"); }
 
