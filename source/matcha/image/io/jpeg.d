@@ -7,6 +7,8 @@ import libjpeg.jpeglib;
 import std.file;
 import std.c.string;
 
+unittest { import std.stdio; writeln(__MODULE__, " : test start"); }
+
 Matrix!(ubyte) readJPEG(in char[] path)
 {
 	auto buf = cast(ubyte[])read(path);
@@ -42,18 +44,22 @@ Matrix!(ubyte) readJPEG(in char[] path)
 unittest
 {
 	import std.stdio;
+	import std.file;
+	import std.path;
+	import std.string;
 
-	if(false)
+	auto m = readJPEG(
+		format("%s/%s", dirName(thisExePath()), "test_0001.jpg") );
+
+	for(auto r = 0; r < m.rows; ++r)
 	{
-		auto m = readJPEG("/home/yusuke/Pictures/test.jpg");
-
-		for(auto r = 0; r < m.rows; ++r)
+		for(auto c = 0; c < m.cols; ++c)
 		{
-			for(auto c = 0; c < m.cols; ++c)
-			{
-				writeln(m[r,c,0], ", " , m[r,c,1], ", ", m[r,c,2]);
-			}
+			const ubyte v = 128;
+			assert( m[r,c,0] == v && m[r,c,1] == v && m[r,c,2] == v);
 		}
 	}
 }
+
+unittest { import std.stdio; writeln(__MODULE__, " : test clear"); }
 
