@@ -106,6 +106,52 @@ body
 	return r;
 }
 
+Matrix!(T) mul(T)(in Matrix!(T) a, in T b)
+out(r)
+{
+	assert(a.rows == r.rows);
+	assert(a.cols == r.cols);
+	assert(a.channels == r.channels);
+}
+body
+{
+	auto r = a.dup;
+
+	T* r_ptr = r.data;
+	const T* r_end_ptr = r.data + r.totalOfElements;
+
+	while(r_ptr != r_end_ptr)
+	{
+		*r_ptr *= b;
+		++r_ptr;
+	}
+}
+
+Matrix!(T) div(T)(in Matrix!(T) a, in T b)
+in
+{
+	assert(b != 0);
+}
+out(r)
+{
+	assert(a.rows == r.rows);
+	assert(a.cols == r.cols);
+	assert(a.channels == r.channels);
+}
+body
+{
+	auto r = a.dup;
+
+	T* r_ptr = r.data;
+	const T* r_end_ptr = r.data + r.totalOfElements;
+
+	while(r_ptr != r_end_ptr)
+	{
+		*r_ptr /= b;
+		++r_ptr;
+	}
+}
+
 unittest
 {
 	const real a = 1.0;
